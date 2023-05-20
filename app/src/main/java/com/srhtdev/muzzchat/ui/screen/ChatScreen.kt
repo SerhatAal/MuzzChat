@@ -75,7 +75,7 @@ fun ChatScreen() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        val (toolbar, recyclerView, bottomBar, editText, button) = createRefs()
+        val (toolbar, recyclerView, bottomBar) = createRefs()
 
         Box(
             modifier = Modifier
@@ -117,6 +117,7 @@ fun ChatScreen() {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(start = 16.dp)
                             ) {
                                 Spacer(modifier = Modifier.weight(1f))
                                 UserMessageBubble(text = item)
@@ -125,6 +126,7 @@ fun ChatScreen() {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .padding(end = 16.dp)
                             ) {
                                 FriendMessageBubble(text = item)
                                 Spacer(modifier = Modifier.weight(1f))
@@ -158,66 +160,68 @@ fun ChatScreen() {
 
             var textFieldValue by remember { mutableStateOf("") }
 
-
             var isFocused by remember { mutableStateOf(false) }
 
-            OutlinedTextField(
-                value = textFieldValue,
-                onValueChange = { newValue ->
-                    textFieldValue = newValue
-                },
-                modifier = Modifier
-                    .constrainAs(editText) {
-                        start.linkTo(parent.start, 16.dp)
-                        end.linkTo(button.start, 16.dp)
-                        bottom.linkTo(parent.bottom, 16.dp)
-                    }
-                    .background(Color.White)
-                    .clip(RoundedCornerShape(30.dp))
-                    .border(
-                        width = 2.dp,
-                        color = if (isFocused) Rose else Color.LightGray,
-                        shape = RoundedCornerShape(30.dp)
-                    )
-                    .focusable(true)
-                    .onFocusChanged { focusState ->
-                        isFocused = focusState.isFocused
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 16.dp)) {
+                OutlinedTextField(
+                    value = textFieldValue,
+                    onValueChange = { newValue ->
+                        textFieldValue = newValue
                     },
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences
-                ),
-            )
-
-            IconButton(
-                onClick = {
-                    if (textFieldValue.isNotEmpty()) {
-                        viewModel.sendMessage(textFieldValue)
-                        textFieldValue = ""
-                    }
-                },
-                modifier = Modifier
-                    .constrainAs(button) {
-                        end.linkTo(parent.end, 16.dp)
-                    }
-                    .clip(CircleShape)
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color(0xFFfe257c),
-                                Color(0xFFfd6470)
-                            ),
-                            start = Offset.Zero,
-                            end = Offset.Infinite
+                    placeholder = { Text(text = "Type your message here", color = Color.LightGray)},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 64.dp)
+                        .background(Color.White)
+                        .clip(RoundedCornerShape(30.dp))
+                        .border(
+                            width = 2.dp,
+                            color = if (isFocused) Rose else Color.LightGray,
+                            shape = RoundedCornerShape(30.dp)
                         )
-                    )
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Send,
-                    contentDescription = "Send Message",
-                    modifier = Modifier.height(36.dp),
-                    tint = Color.White
+                        .focusable(true)
+                        .onFocusChanged { focusState ->
+                            isFocused = focusState.isFocused
+                        },
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences
+                    ),
+                    maxLines = 2
                 )
+
+                IconButton(
+                    onClick = {
+                        if (textFieldValue.isNotEmpty()) {
+                            viewModel.sendMessage(textFieldValue)
+                            textFieldValue = ""
+                        }
+                    },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .clip(CircleShape)
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color(0xFFfe257c),
+                                    Color(0xFFfd6470)
+                                ),
+                                start = Offset.Zero,
+                                end = Offset.Infinite
+                            )
+                        )
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Send,
+                        contentDescription = "Send Message",
+                        modifier = Modifier.size(36.dp),
+                        tint = Color.White
+                    )
+                }
             }
+
+
         }
     }
 }
