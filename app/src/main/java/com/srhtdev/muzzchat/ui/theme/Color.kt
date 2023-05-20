@@ -11,3 +11,7 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val Rose = Color(0xFFff1378)
+val AtomicTangerine = Color(0xFFfd6470)
+val RiverBed = Color(0xFF485866)
+val WhiteLilac = Color(0xFFf3f5fb)
+val Submarine = Color(0xFFb3bbc2)

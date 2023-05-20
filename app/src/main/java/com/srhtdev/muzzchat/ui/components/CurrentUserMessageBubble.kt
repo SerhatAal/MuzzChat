@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
+import com.srhtdev.muzzchat.ui.theme.WhiteLilac
 
 @Composable
 fun FriendMessageBubble(
@@ -19,7 +20,7 @@ fun FriendMessageBubble(
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .background(
-                color = Color(0xFFf3f5fb),
+                color = WhiteLilac,
                 shape = RoundedCornerShape(
                     topStart = 16.dp,
                     topEnd = 16.dp,

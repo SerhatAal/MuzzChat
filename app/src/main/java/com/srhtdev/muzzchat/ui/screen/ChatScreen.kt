@@ -59,6 +59,8 @@ import com.srhtdev.muzzchat.ui.components.MessageDateText
 import com.srhtdev.muzzchat.ui.components.UserMessageBubble
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
 import com.srhtdev.muzzchat.ui.model.User
+import com.srhtdev.muzzchat.ui.theme.AtomicTangerine
+import com.srhtdev.muzzchat.ui.theme.RiverBed
 import com.srhtdev.muzzchat.ui.theme.Rose
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -204,8 +206,8 @@ fun ChatScreen() {
                         .background(
                             brush = Brush.linearGradient(
                                 colors = listOf(
-                                    Color(0xFFfe257c),
-                                    Color(0xFFfd6470)
+                                    Rose,
+                                    AtomicTangerine
                                 ),
                                 start = Offset.Zero,
                                 end = Offset.Infinite
@@ -229,12 +231,12 @@ fun ChatScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatAppToolBar(
-    viewmodel: ChatViewModel,
+    viewModel: ChatViewModel,
     modifier: Modifier = Modifier
 ) {
     val activity = (LocalContext.current as? Activity)
 
-    val currentUser = viewmodel.currentUser.collectAsState(initial = User.UserOne).value
+    val currentUser = viewModel.currentUser.collectAsState(initial = User.UserOne).value
 
     TopAppBar(
         title = {
@@ -246,7 +248,7 @@ fun ChatAppToolBar(
                 IconButton(onClick = { activity?.finish() }) {
                     Icon(
                         Icons.Outlined.KeyboardArrowLeft,
-                        tint = Color(0xFFfb4375),
+                        tint = Rose,
                         contentDescription = "Navigate up",
                         modifier = Modifier.fillMaxSize()
                     )
@@ -266,14 +268,14 @@ fun ChatAppToolBar(
                     currentUser.name,
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF485866)
+                        color = RiverBed
                     ),
                     modifier = Modifier
                 )
             }
         },
         actions = {
-            IconButton(onClick = { viewmodel.switchUser() }) {
+            IconButton(onClick = { viewModel.switchUser() }) {
                 Icon(
                     Icons.Filled.Refresh,
                     tint = MaterialTheme.colorScheme.onSurface,
