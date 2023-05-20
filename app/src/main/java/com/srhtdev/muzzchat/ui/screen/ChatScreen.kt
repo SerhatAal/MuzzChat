@@ -3,6 +3,7 @@ package com.srhtdev.muzzchat.ui.screen
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -57,6 +59,7 @@ import com.srhtdev.muzzchat.ui.components.MessageDateText
 import com.srhtdev.muzzchat.ui.components.UserMessageBubble
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
 import com.srhtdev.muzzchat.ui.model.User
+import com.srhtdev.muzzchat.ui.theme.Rose
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -135,9 +138,8 @@ fun ChatScreen() {
                         val sdfHour = SimpleDateFormat("HH:mm", Locale.getDefault())
 
                         MessageDateText(
-                            dayString = sdfDay.format(Date(item.date)), hourString = sdfHour.format(
-                                Date(item.date)
-                            )
+                            dayString = sdfDay.format(Date(item.date)),
+                            hourString = sdfHour.format(Date(item.date))
                         )
                     }
                 }
@@ -157,6 +159,8 @@ fun ChatScreen() {
             var textFieldValue by remember { mutableStateOf("") }
 
 
+            var isFocused by remember { mutableStateOf(false) }
+
             OutlinedTextField(
                 value = textFieldValue,
                 onValueChange = { newValue ->
@@ -171,10 +175,14 @@ fun ChatScreen() {
                     .background(Color.White)
                     .clip(RoundedCornerShape(30.dp))
                     .border(
-                        2.dp,
-                        Color(0xFFfe257c),
+                        width = 2.dp,
+                        color = if (isFocused) Rose else Color.LightGray,
                         shape = RoundedCornerShape(30.dp)
-                    ),
+                    )
+                    .focusable(true)
+                    .onFocusChanged { focusState ->
+                        isFocused = focusState.isFocused
+                    },
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences
                 ),
@@ -207,7 +215,7 @@ fun ChatScreen() {
                     imageVector = Icons.Outlined.Send,
                     contentDescription = "Send Message",
                     modifier = Modifier.height(36.dp),
-                    tint = Color.White // Set the tint color of the icon
+                    tint = Color.White
                 )
             }
         }
