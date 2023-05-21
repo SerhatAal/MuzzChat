@@ -54,9 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import com.srhtdev.muzzchat.ui.components.FriendMessageBubble
+import com.srhtdev.muzzchat.ui.components.CurrentUserMessageBubble
 import com.srhtdev.muzzchat.ui.components.MessageDateText
-import com.srhtdev.muzzchat.ui.components.UserMessageBubble
+import com.srhtdev.muzzchat.ui.components.OtherUserMessageBubble
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
 import com.srhtdev.muzzchat.ui.model.User
 import com.srhtdev.muzzchat.ui.theme.AtomicTangerine
@@ -115,23 +115,23 @@ fun ChatScreen() {
             items(allMessage) { item ->
                 when (item) {
                     is ChatUiModel.MessageItem -> {
-                        if (item.message.isMessageFromOtherUser) {
+                        if (!item.message.isMessageFromOtherUser) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(start = 16.dp)
+                                    .padding(end = 64.dp)
                             ) {
+                                OtherUserMessageBubble(text = item)
                                 Spacer(modifier = Modifier.weight(1f))
-                                UserMessageBubble(text = item)
                             }
                         } else {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(end = 16.dp)
+                                    .padding(start = 64.dp)
                             ) {
-                                FriendMessageBubble(text = item)
                                 Spacer(modifier = Modifier.weight(1f))
+                                CurrentUserMessageBubble(text = item)
                             }
                         }
 
