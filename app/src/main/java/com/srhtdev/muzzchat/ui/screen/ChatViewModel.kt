@@ -5,14 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.srhtdev.muzzchat.domain.model.Message
 import com.srhtdev.muzzchat.domain.usecase.GetAllMessagesUseCase
 import com.srhtdev.muzzchat.domain.usecase.SendMessageUseCase
-import com.srhtdev.muzzchat.ui.model.MessageUiModel
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
+import com.srhtdev.muzzchat.ui.model.MessageUiModel
 import com.srhtdev.muzzchat.ui.model.User
+import com.srhtdev.muzzchat.util.Constants.ONE_HOUR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,10 +24,6 @@ class ChatViewModel @Inject constructor(
     private val _allMessages: MutableStateFlow<List<ChatUiModel>> =
         MutableStateFlow(emptyList())
     val allMessages: Flow<List<ChatUiModel>> = _allMessages
-
-    private val _lastMessage: MutableStateFlow<Message?> =
-        MutableStateFlow(null)
-    val lastMessage: Flow<Message?> = _lastMessage
 
     private val _currentUser: MutableStateFlow<User> =
         MutableStateFlow(User.UserOne)
@@ -40,34 +37,15 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getAllMessagesUseCase.invoke().collect { list ->
-                    _lastMessage.value = list.last()
-                    var messages: List<MessageUiModel> = listOf()
-                    list.map {
-                        messages = if (it.senderName == _currentUser.value.name) {
-                            messages + MessageUiModel(it, true)
+                    val messages = list.map {
+                        if (it.senderName == _currentUser.value.name) {
+                            MessageUiModel(it, true)
                         } else {
-                            messages + MessageUiModel(it, false)
+                            MessageUiModel(it, false)
                         }
                     }
 
-                    val groupedList = messages.groupBy { message ->
-                        val calendar = Calendar.getInstance().apply {
-                            timeInMillis = message.chatMessage.messageTime
-                            set(Calendar.MINUTE, 0)
-                            set(Calendar.SECOND, 0)
-                            set(Calendar.MILLISECOND, 0)
-                        }
-                        calendar.timeInMillis
-                    }
-
-                    val uiList = mutableListOf<ChatUiModel>()
-
-                    groupedList.forEach { message ->
-                        uiList.add(ChatUiModel.DateItem(message.key))
-                        uiList.addAll(message.value.map {
-                            ChatUiModel.MessageItem(it)
-                        })
-                    }
+                    val uiList = sectionMessages(messages)
                     _allMessages.value = uiList
                 }
 
@@ -105,5 +83,27 @@ class ChatViewModel @Inject constructor(
         }
 
         getAllMessages()
+    }
+
+    private fun sectionMessages(messages: List<MessageUiModel>): List<ChatUiModel> {
+        val sectionedMessages = mutableListOf<ChatUiModel>()
+
+        var previousMessageTime: Date? = null
+
+        for (message in messages) {
+            val currentMessageTime = Date(message.chatMessage.messageTime)
+
+            if (previousMessageTime == null || currentMessageTime.time - previousMessageTime.time > ONE_HOUR) {
+                sectionedMessages.add(ChatUiModel.DateItem(message.chatMessage.messageTime))
+            }
+
+            sectionedMessages.add(
+                ChatUiModel.MessageItem(message)
+            )
+
+            previousMessageTime = currentMessageTime
+        }
+
+        return sectionedMessages
     }
 }
