@@ -9,23 +9,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.srhtdev.muzzchat.ui.model.ChatUiModel
-import com.srhtdev.muzzchat.ui.theme.Rose
+import com.srhtdev.muzzchat.ui.theme.WhiteLilac
 
 @Composable
-fun UserMessageBubble(text: ChatUiModel.MessageItem, modifier: Modifier = Modifier) {
+fun OtherUserMessageBubble(
+    text: ChatUiModel.MessageItem,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .background(
-                color = Rose,
-                shape = RoundedCornerShape(
-                    topStart = 16.dp,
-                    topEnd = 16.dp,
-                    bottomStart = 16.dp,
-                    bottomEnd = 0.dp
-                )
+                color = WhiteLilac,
+                shape = RoundedCornerShape(16.dp)
             )
     ) {
-        MessageBubbleContent(text, Color.White, modifier)
+        MessageBubbleContent(text, Color.Black, modifier)
     }
 }
