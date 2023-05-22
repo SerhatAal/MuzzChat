@@ -1,0 +1,124 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
+
+object Dependencies {
+    const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
+    const val lifecycleRuntime =
+        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
+    const val activityCompose = "androidx.activity:activity-compose:${Versions.activityCompose}"
+    const val composeUi = "androidx.compose.ui:ui:${Versions.compose}"
+    const val composeUiGraphics = "androidx.compose.ui:ui-graphics:${Versions.compose}"
+    const val composeUiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${Versions.compose}"
+    const val composeMaterial3 = "androidx.compose.material3:material3:${Versions.composeMaterial}"
+    const val composeUiJunit = "androidx.compose.ui:ui-test-junit4:${Versions.compose}"
+    const val composeUiTooling = "androidx.compose.ui:ui-tooling:${Versions.compose}"
+    const val composeUiManifest = "androidx.compose.ui:ui-test-manifest:${Versions.compose}"
+    const val composeFoundation = "androidx.compose.foundation:foundation:${Versions.compose}"
+    const val composeRuntime = "androidx.compose.runtime:runtime:${Versions.compose}"
+    const val composeConstraintLayout =
+        "androidx.constraintlayout:constraintlayout-compose:${Versions.composeConstraintLayout}"
+    const val composeViewModel =
+        "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.composeViewModel}"
+    const val composeCoil = "io.coil-kt:coil-compose:${Versions.composeCoil}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutine}"
+    const val coroutineAndroid =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutine}"
+    const val daggerHilt = "com.google.dagger:hilt-android:${Versions.daggerHilt}"
+    const val daggerCompiler = "com.google.dagger:hilt-android-compiler:${Versions.daggerHilt}"
+    const val junit = "junit:junit:${Versions.junit}"
+    const val testExtJunit = "androidx.test.ext:junit:${Versions.testExtJunit}"
+    const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
+}
+
+object Versions {
+    const val coreKtx = "1.10.1"
+    const val lifecycleRuntime = "2.6.1"
+    const val activityCompose = "1.7.1"
+    const val compose = "1.4.1"
+    const val composeConstraintLayout = "1.0.1"
+    const val composeViewModel = "2.6.1"
+    const val composeCoil = "2.3.0"
+    const val composeMaterial = "1.1.0"
+    const val room = "2.5.1"
+    const val coroutine = "1.6.4"
+    const val daggerHilt = "2.44"
+    const val junit = "4.13.2"
+    const val testExtJunit = "1.1.5"
+    const val espressoCore = "3.5.1"
+}
+
+val appLibraries = arrayListOf<String>().apply {
+    add(Dependencies.coreKtx)
+    add(Dependencies.lifecycleRuntime)
+    add(Dependencies.activityCompose)
+    add(Dependencies.composeUi)
+    add(Dependencies.composeUiGraphics)
+    add(Dependencies.composeUiToolingPreview)
+    add(Dependencies.composeMaterial3)
+    add(Dependencies.composeFoundation)
+    add(Dependencies.composeRuntime)
+    add(Dependencies.composeConstraintLayout)
+    add(Dependencies.composeViewModel)
+    add(Dependencies.composeCoil)
+    add(Dependencies.roomRuntime)
+    add(Dependencies.roomKtx)
+    add(Dependencies.coroutineCore)
+    add(Dependencies.coroutineAndroid)
+    add(Dependencies.daggerHilt)
+}
+
+val androidTestLibraries = arrayListOf<String>().apply {
+    add(Dependencies.testExtJunit)
+    add(Dependencies.espressoCore)
+    add(Dependencies.composeUiJunit)
+}
+
+val testLibraries = arrayListOf<String>().apply {
+    add(Dependencies.junit)
+}
+
+val kaptLibraries = arrayListOf<String>().apply {
+    add(Dependencies.daggerCompiler)
+    add(Dependencies.roomCompiler)
+}
+
+val debugLibraries = arrayListOf<String>().apply {
+    add(Dependencies.composeUiManifest)
+    add(Dependencies.composeUiTooling)
+}
+
+fun DependencyHandler.kapt(list: List<String>) {
+    list.forEach { dependency ->
+        add("kapt", dependency)
+    }
+}
+
+fun DependencyHandler.implementation(list: List<String>) {
+    list.forEach { dependency ->
+        add("implementation", dependency)
+    }
+}
+
+fun DependencyHandler.androidTestImplementation(list: List<String>) {
+    list.forEach { dependency ->
+        add("androidTestImplementation", dependency)
+    }
+}
+
+fun DependencyHandler.testImplementation(list: List<String>) {
+    list.forEach { dependency ->
+        add("testImplementation", dependency)
+    }
+}
+
+fun DependencyHandler.debugImplementation(list: List<String>) {
+    list.forEach { dependency ->
+        add("debugImplementation", dependency)
+    }
+}
+
+
+
+  
