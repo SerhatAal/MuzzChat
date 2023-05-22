@@ -14,6 +14,7 @@ import com.srhtdev.muzzchat.ui.theme.Rose
 @Composable
 fun CurrentUserMessageBubble(
     text: ChatUiModel.MessageItem,
+    hasTail: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -21,9 +22,14 @@ fun CurrentUserMessageBubble(
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .background(
                 color = Rose,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(
+                    topStart = 16.dp,
+                    topEnd = 16.dp,
+                    bottomStart = 16.dp,
+                    bottomEnd = 0.dp,
+                )
             )
     ) {
-        MessageBubbleContent(text, Color.White, modifier)
+        MessageBubbleContent(text, Color.White, modifier, hasTail)
     }
 }
