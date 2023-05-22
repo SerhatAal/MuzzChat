@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,11 +62,11 @@ import com.srhtdev.muzzchat.ui.model.User
 import com.srhtdev.muzzchat.ui.theme.AtomicTangerine
 import com.srhtdev.muzzchat.ui.theme.RiverBed
 import com.srhtdev.muzzchat.ui.theme.Rose
+import com.srhtdev.muzzchat.util.Constants.TWENTY_SECONDS
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen() {
 
@@ -107,14 +107,24 @@ fun ChatScreen() {
                     end.linkTo(parent.end)
                     bottom.linkTo(bottomBar.top)
                 }
-                .padding(bottom = 80.dp, top = 65.dp),
+                .padding(bottom = 80.dp, top = 80.dp),
             state = lazyListState,
             verticalArrangement = Arrangement.Bottom
         ) {
-
-            items(allMessage) { item ->
+            itemsIndexed(allMessage) { index, item ->
                 when (item) {
                     is ChatUiModel.MessageItem -> {
+                        val hasTail = when {
+                            index == allMessage.size - 1 -> true
+                            allMessage.getOrNull(index + 1)?.let { nextItem ->
+                                nextItem is ChatUiModel.MessageItem &&
+                                        nextItem.message.chatMessage.senderName != item.message.chatMessage.senderName ||
+                                        nextItem is ChatUiModel.MessageItem &&
+                                        nextItem.message.chatMessage.messageTime - item.message.chatMessage.messageTime > TWENTY_SECONDS
+                            } == true -> true
+
+                            else -> false
+                        }
                         if (!item.message.isMessageFromOtherUser) {
                             Row(
                                 modifier = Modifier
@@ -131,7 +141,7 @@ fun ChatScreen() {
                                     .padding(start = 64.dp)
                             ) {
                                 Spacer(modifier = Modifier.weight(1f))
-                                CurrentUserMessageBubble(text = item)
+                                CurrentUserMessageBubble(text = item, hasTail)
                             }
                         }
 
@@ -164,15 +174,22 @@ fun ChatScreen() {
 
             var isFocused by remember { mutableStateOf(false) }
 
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 16.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = 16.dp)
+            ) {
                 OutlinedTextField(
                     value = textFieldValue,
                     onValueChange = { newValue ->
                         textFieldValue = newValue
                     },
-                    placeholder = { Text(text = "Type your message here", color = Color.LightGray)},
+                    placeholder = {
+                        Text(
+                            text = "Type your message here",
+                            color = Color.LightGray
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(end = 64.dp)

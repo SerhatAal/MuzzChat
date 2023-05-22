@@ -21,7 +21,12 @@ fun OtherUserMessageBubble(
             .padding(horizontal = 16.dp, vertical = 2.dp)
             .background(
                 color = WhiteLilac,
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(
+                    topStart = 16.dp,
+                    topEnd = 16.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 16.dp,
+                )
             )
     ) {
         MessageBubbleContent(text, Color.Black, modifier)
