@@ -6,17 +6,17 @@ plugins {
 }
 
 android {
-    namespace = "com.srhtdev.muzzchat"
-    compileSdk = 33
+    namespace = AppConfig.APPLICATION_ID
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.srhtdev.muzzchat"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.APPLICATION_ID
+        minSdk = AppConfig.minSdk
+        targetSdk = AppConfig.targetSdk
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = AppConfig.androidTestInstrumentation
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -45,17 +45,16 @@ android {
         kotlinCompilerExtensionVersion = "1.4.2"
     }
     packagingOptions {
-        resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 }
 
 dependencies {
-
-    implementation(appLibraries)
-    testImplementation(testLibraries)
-    androidTestImplementation(androidTestLibraries)
-    kapt(kaptLibraries)
-    debugImplementation(debugLibraries)
+    implementation(Dependencies.appLibraries)
+    testImplementation(Dependencies.testLibraries)
+    androidTestImplementation(Dependencies.androidTestLibraries)
+    kapt(Dependencies.kaptLibraries)
+    debugImplementation(Dependencies.debugLibraries)
 }
 
 kapt {

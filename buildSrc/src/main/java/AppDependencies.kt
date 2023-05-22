@@ -30,63 +30,47 @@ object Dependencies {
     const val junit = "junit:junit:${Versions.junit}"
     const val testExtJunit = "androidx.test.ext:junit:${Versions.testExtJunit}"
     const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espressoCore}"
-}
 
-object Versions {
-    const val coreKtx = "1.10.1"
-    const val lifecycleRuntime = "2.6.1"
-    const val activityCompose = "1.7.1"
-    const val compose = "1.4.1"
-    const val composeConstraintLayout = "1.0.1"
-    const val composeViewModel = "2.6.1"
-    const val composeCoil = "2.3.0"
-    const val composeMaterial = "1.1.0"
-    const val room = "2.5.1"
-    const val coroutine = "1.6.4"
-    const val daggerHilt = "2.44"
-    const val junit = "4.13.2"
-    const val testExtJunit = "1.1.5"
-    const val espressoCore = "3.5.1"
-}
+    val appLibraries = arrayListOf<String>().apply {
+        add(Dependencies.coreKtx)
+        add(Dependencies.lifecycleRuntime)
+        add(Dependencies.activityCompose)
+        add(Dependencies.composeUi)
+        add(Dependencies.composeUiGraphics)
+        add(Dependencies.composeUiToolingPreview)
+        add(Dependencies.composeMaterial3)
+        add(Dependencies.composeFoundation)
+        add(Dependencies.composeRuntime)
+        add(Dependencies.composeConstraintLayout)
+        add(Dependencies.composeViewModel)
+        add(Dependencies.composeCoil)
+        add(Dependencies.roomRuntime)
+        add(Dependencies.roomKtx)
+        add(Dependencies.coroutineCore)
+        add(Dependencies.coroutineAndroid)
+        add(Dependencies.daggerHilt)
+    }
 
-val appLibraries = arrayListOf<String>().apply {
-    add(Dependencies.coreKtx)
-    add(Dependencies.lifecycleRuntime)
-    add(Dependencies.activityCompose)
-    add(Dependencies.composeUi)
-    add(Dependencies.composeUiGraphics)
-    add(Dependencies.composeUiToolingPreview)
-    add(Dependencies.composeMaterial3)
-    add(Dependencies.composeFoundation)
-    add(Dependencies.composeRuntime)
-    add(Dependencies.composeConstraintLayout)
-    add(Dependencies.composeViewModel)
-    add(Dependencies.composeCoil)
-    add(Dependencies.roomRuntime)
-    add(Dependencies.roomKtx)
-    add(Dependencies.coroutineCore)
-    add(Dependencies.coroutineAndroid)
-    add(Dependencies.daggerHilt)
-}
 
-val androidTestLibraries = arrayListOf<String>().apply {
-    add(Dependencies.testExtJunit)
-    add(Dependencies.espressoCore)
-    add(Dependencies.composeUiJunit)
-}
+    val androidTestLibraries = arrayListOf<String>().apply {
+        add(Dependencies.testExtJunit)
+        add(Dependencies.espressoCore)
+        add(Dependencies.composeUiJunit)
+    }
 
-val testLibraries = arrayListOf<String>().apply {
-    add(Dependencies.junit)
-}
+    val testLibraries = arrayListOf<String>().apply {
+        add(Dependencies.junit)
+    }
 
-val kaptLibraries = arrayListOf<String>().apply {
-    add(Dependencies.daggerCompiler)
-    add(Dependencies.roomCompiler)
-}
+    val kaptLibraries = arrayListOf<String>().apply {
+        add(Dependencies.daggerCompiler)
+        add(Dependencies.roomCompiler)
+    }
 
-val debugLibraries = arrayListOf<String>().apply {
-    add(Dependencies.composeUiManifest)
-    add(Dependencies.composeUiTooling)
+    val debugLibraries = arrayListOf<String>().apply {
+        add(Dependencies.composeUiManifest)
+        add(Dependencies.composeUiTooling)
+    }
 }
 
 fun DependencyHandler.kapt(list: List<String>) {

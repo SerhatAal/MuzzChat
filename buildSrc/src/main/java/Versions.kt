@@ -1,0 +1,18 @@
+object Versions {
+    const val coreKtx = "1.10.1"
+    const val lifecycleRuntime = "2.6.1"
+    const val activityCompose = "1.7.1"
+    const val compose = "1.4.1"
+    const val composeConstraintLayout = "1.0.1"
+    const val composeViewModel = "2.6.1"
+    const val composeCoil = "2.3.0"
+    const val composeMaterial = "1.1.0"
+    const val room = "2.5.1"
+    const val coroutine = "1.6.4"
+    const val daggerHilt = "2.44"
+    const val junit = "4.13.2"
+    const val testExtJunit = "1.1.5"
+    const val espressoCore = "3.5.1"
+    const val gradle = "7.4.1"
+    const val kotlin = "1.8.10"
+}
