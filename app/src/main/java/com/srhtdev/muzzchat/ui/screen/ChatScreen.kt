@@ -52,6 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.srhtdev.muzzchat.ui.components.CurrentUserMessageBubble
@@ -102,12 +103,12 @@ fun ChatScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .constrainAs(recyclerView) {
-                    top.linkTo(toolbar.bottom)
+                    top.linkTo(toolbar.bottom, margin = 8.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     bottom.linkTo(bottomBar.top)
-                }
-                .padding(bottom = 80.dp, top = 80.dp),
+                    height = Dimension.fillToConstraints
+                },
             state = lazyListState,
             verticalArrangement = Arrangement.Bottom
         ) {

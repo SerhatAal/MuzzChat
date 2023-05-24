@@ -93,7 +93,7 @@ class ChatViewModel @Inject constructor(
         for (message in messages) {
             val currentMessageTime = Date(message.chatMessage.messageTime)
 
-            if (previousMessageTime == null || currentMessageTime.time - previousMessageTime.time > ONE_HOUR) {
+            if ((previousMessageTime == null) || ((currentMessageTime.time - previousMessageTime.time) > ONE_HOUR)) {
                 sectionedMessages.add(ChatUiModel.DateItem(message.chatMessage.messageTime))
             }
 
